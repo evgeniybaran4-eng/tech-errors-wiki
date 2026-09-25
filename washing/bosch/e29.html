@@ -13,7 +13,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body { font-family: 'Inter', sans-serif; }</style>
-  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "HowTo", "name": "Ошибка E29 в стиральной машине Bosch: сбой датчика потока", "description": "Ошибка E29 означает, что датчик протока фиксирует недостаточный объем заливаемой воды при открытом электромагнитном клапане.", "author": {"@type": "Person", "name": "Алексей Васильев", "url": "https://tech-errors-wiki.vercel.app/author/"}, "step": [{"@type": "HowToStep", "name": "Оцените силу струи в смесителе", "text": "Откройте кран холодной воды рядом со стиральной машиной. Струя должна быть плотной, без провалов давления."}, {"@type": "HowToStep", "name": "Очистите входные фильтры", "text": "Снимите шланг подачи и очистите внутреннюю сеточку штуцера от налета ржавчины."}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно ли принудительно открыть дверцу при ошибке E29?", "acceptedAnswer": {"@type": "Answer", "text": "Если внутри бака осталась вода, открывать дверцу напрямую нельзя — затопит пол. Сначала отключите прибор от сети 220V, слейте воду через аварийный шланг у фильтра снизу, после чего замок УБЛ остынет и откроется через 2-3 минуты."}}, {"@type": "Question", "name": "Помогает ли сброс ошибки выключением из розетки?", "acceptedAnswer": {"@type": "Answer", "text": "Если ошибка вызвана разовым программным сбоем процессора из-за скачка напряжения в сети, отключение из розетки на 15-20 минут поможет очистить энергозависимую память контроллера. Если поломка физическая (засор, сгорел ТЭН или насос), код появится повторно."}}, {"@type": "Question", "name": "Опасно ли продолжать эксплуатацию при коде E29?", "acceptedAnswer": {"@type": "Answer", "text": "Эксплуатация не рекомендуется. При заблокированной помпе или пробитом ТЭНе повышается риск перегрева платы управления и короткого замыкания в силовых цепях."}}, {"@type": "Question", "name": "Сколько времени занимает устранение ошибки E29?", "acceptedAnswer": {"@type": "Answer", "text": "Самостоятельная чистка фильтра или проверка заливного шланга занимает 15-25 минут. Замена помпы, клапана или нагревательного элемента мастером занимает от 40 до 60 минут на дому."}}]}]</script>
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "HowTo", "name": "Ошибка E29 в стиральной машине Bosch: сбой датчика потока", "description": "Ошибка E29 означает, что датчик протока фиксирует недостаточный объем заливаемой воды при открытом электромагнитном клапане.", "author": {"@type": "Person", "name": "Алексей Васильев", "url": "https://tech-errors-wiki.vercel.app/author/"}, "step": [{"@type": "HowToStep", "name": "Оцените силу струи в смесителе", "text": "Откройте кран холодной воды рядом со стиральной машиной. Струя должна быть плотной, без провалов давления."}, {"@type": "HowToStep", "name": "Очистите входные фильтры", "text": "Снимите шланг подачи и очистите внутреннюю сеточку штуцера от налета ржавчины."}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно ли принудительно открыть дверцу при ошибке E29?", "acceptedAnswer": {"@type": "Answer", "text": "Если внутри бака осталась вода, открывать люк напрямую нельзя. Сначала отключите прибор от сети 220V, слейте воду через аварийную трубку у фильтра снизу, после чего термозамок остынет и откроется через 2-3 минуты."}}, {"@type": "Question", "name": "Помогает ли сброс ошибки отключением из розетки?", "acceptedAnswer": {"@type": "Answer", "text": "Если ошибка вызвана разовым сбоем процессора из-за перепада напряжения, отключение из сети на 15-20 минут сбросит энергозависимую память контроллера. При физической поломке (засор, ТЭН, помпа) код появится снова."}}, {"@type": "Question", "name": "Опасно ли продолжать стирку при ошибке E29?", "acceptedAnswer": {"@type": "Answer", "text": "Продолжать цикл не рекомендуется. При заблокированном насосе или пробитом ТЭНе повышается риск перегрева проводки и повреждения симисторов на плате управления."}}]}]</script>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
   
@@ -48,27 +48,24 @@
 
       <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Ошибка E29 в стиральной машине Bosch: сбой датчика потока</h1>
       
-      <!-- Lead / Quick Answer для нулевой позиции Google и сниппета Яндекса -->
       <div class="text-sm sm:text-base text-slate-700 leading-relaxed mb-8 bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
         <strong class="text-slate-900 font-semibold block mb-1">Коротко о проблеме:</strong>
-        Ошибка E29 означает, что датчик протока фиксирует недостаточный объем заливаемой воды при открытом электромагнитном клапане. Если ошибка сопровождается звуковым сигналом, модуль блокирует дальнейшее выполнение программы для защиты внутренних компонентов.
+        Ошибка E29 означает, что датчик протока фиксирует недостаточный объем заливаемой воды при открытом электромагнитном клапане. Если ошибка сопровождается звуковым сигналом, модуль блокирует дальнейшее выполнение программы для защиты внутренних узлов.
       </div>
 
-      <!-- Блок сброса ошибки без разборки -->
       <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-900 mb-2">Как попробовать сбросить ошибку E29 без разборки</h2>
+        <h2 class="text-lg font-bold text-slate-900 mb-2">Как сбросить ошибку E29 без разборки</h2>
         <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
-          Прежде чем приступать к механической разборке узлов, исключите разовый сбой микроконтроллера из-за импульсных помех в электросети:
+          Прежде чем разбирать прибор, исключите разовый сбой контроллера из-за помех в сети:
         </p>
         <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
-          <li>Переведите селектор программ в нейтральное положение «Выкл» (Off).</li>
-          <li>Полностью извлеките вилку шнура питания из розетки на <strong>15–20 минут</strong>.</li>
-          <li>Подключите питание повторно, выберите режим обычного полоскания или короткий тестовый цикл без загрузки белья.</li>
-          <li>Если индикация ошибки E29 загорается снова в течение первых минут — поломка имеет физический характер.</li>
+          <li>Переведите ручку выбора программ в нейтральное положение «Выкл».</li>
+          <li>Полностью выдерните шнур питания из розетки на <strong>15–20 минут</strong>.</li>
+          <li>Включите питание снова и запустите тестовый режим полоскания без белья.</li>
+          <li>Если ошибка E29 снова загорается — причина в засоре или неисправной детали.</li>
         </ol>
       </section>
 
-      <!-- Симптомы и причины -->
       <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div class="border border-slate-200 rounded-xl p-5 bg-white">
           <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">⚠️ Характерные симптомы</h3>
@@ -80,18 +77,6 @@
         </div>
       </section>
 
-      <!-- Индикация на моделях без дисплея -->
-      <section class="mb-10">
-        <h2 class="text-xl font-bold text-slate-900 mb-3">Как проявляется ошибка E29 на моделях без дисплея</h2>
-        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
-          На стиральных машинах Bosch без цифрового экрана код кодируется комбинацией мигающих светодиодов панели управления (индикаторы отжима, стирки, полоскания или блокировки двери):
-        </p>
-        <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 text-xs sm:text-sm text-amber-900 leading-relaxed">
-          <strong>Сигнатура светодиодов:</strong> синхронное моргание крайних индикаторов скорости отжима (например, индикаторы «Обороты 800» и «Без отжима»), сопровождающееся циклическими паузами по 3-5 секунд. При этом кнопка «Старт / Пауза» может непрерывно светиться красным цветом.
-        </div>
-      </section>
-
-      <!-- Пошаговый чеклист устранения -->
       <section class="mb-10">
         <h2 class="text-xl font-bold text-slate-900 mb-6">Пошаговая инструкция устранения своими руками</h2>
         <ul class="space-y-6">
@@ -113,23 +98,21 @@
         </ul>
       </section>
 
-      <!-- Электродиагностика мультиметром -->
       <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
         <h2 class="text-lg font-bold text-slate-900 mb-2">Проверка электрических компонентов мультиметром</h2>
         <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
-          Если очистка механических узлов не помогла, снимите защитные крышки корпуса для прозвонки контактных групп при отключенной вилке:
+          Если чистка механических узлов не решила проблему, проведите замеры сопротивления на клеммах при отключенной вилке:
         </p>
         <ul class="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-700">
-          <li><strong>Проверка обмотки:</strong> переведите мультиметр в режим замера сопротивления (200 Ом или 2 кОм) и приложите щупы к выводам клемм. Исправная катушка выдает строго нормированное сопротивление, а значение 0 (короткое замыкание) или единица (обрыв) свидетельствуют о выходе детали из строя.</li>
-          <li><strong>Проверка пробоя на корпус:</strong> установите диапазон 20 МОм, один щуп подключите к земляной клемме детали, второй — к рабочему контакту. На дисплее мультиметра не должно быть утечки.</li>
+          <li><strong>Проверка катушки/обмотки:</strong> переведите тестер в режим 200 Ом. Значение 0 говорит о коротком замыкании, символ единицы (OL) — об обрыве витков.</li>
+          <li><strong>Проверка пробоя на массу:</strong> прибор в режим 20 МОм, один щуп на корпус детали, второй на контакт питания. Показания должны оставаться бесконечными.</li>
         </ul>
       </section>
 
-      <!-- Таблица сметы -->
       <section class="mb-10">
         <div class="mb-4">
-          <h3 class="text-xl font-bold text-slate-900">Ориентировочная смета и стоимость ремонта</h3>
-          <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Среднерыночные расценки при вызове мастера (запчасти рассчитываются отдельно)</p>
+          <h3 class="text-xl font-bold text-slate-900">Ориентировочная стоимость ремонта</h3>
+          <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Средние расценки сервисных центров (детали рассчитываются отдельно)</p>
         </div>
         <div class="overflow-x-auto rounded-xl border border-slate-200">
           <table class="w-full text-left border-collapse bg-white">
@@ -169,41 +152,33 @@
         </div>
       </section>
 
-      <!-- Блок мастера -->
       <section class="p-5 rounded-xl bg-amber-50 border border-amber-200 mb-8">
-        <h3 class="font-bold text-amber-900 text-base mb-2">🛠 Когда требуется квалифицированный ремонт</h3>
+        <h3 class="font-bold text-amber-900 text-base mb-2">🛠 Когда требуется вызов специалиста</h3>
         <p class="text-slate-700 text-sm leading-relaxed">Мастер выполняет проверку герконового датчика расходомера и замеряет импульсы осциллографом либо заменяет датчик протока в сборе с входным патрубком.</p>
       </section>
 
-      <!-- Частые вопросы (FAQ) -->
       <section class="mb-10">
         <h3 class="text-xl font-bold text-slate-900 mb-4">Часто задаваемые вопросы по коду E29</h3>
         <div class="space-y-3">
           
     <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
       <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Можно ли принудительно открыть дверцу при ошибке E29?</h4>
-      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Если внутри бака осталась вода, открывать дверцу напрямую нельзя — затопит пол. Сначала отключите прибор от сети 220V, слейте воду через аварийный шланг у фильтра снизу, после чего замок УБЛ остынет и откроется через 2-3 минуты.</p>
+      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Если внутри бака осталась вода, открывать люк напрямую нельзя. Сначала отключите прибор от сети 220V, слейте воду через аварийную трубку у фильтра снизу, после чего термозамок остынет и откроется через 2-3 минуты.</p>
     </div>
     
     <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Помогает ли сброс ошибки выключением из розетки?</h4>
-      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Если ошибка вызвана разовым программным сбоем процессора из-за скачка напряжения в сети, отключение из розетки на 15-20 минут поможет очистить энергозависимую память контроллера. Если поломка физическая (засор, сгорел ТЭН или насос), код появится повторно.</p>
+      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Помогает ли сброс ошибки отключением из розетки?</h4>
+      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Если ошибка вызвана разовым сбоем процессора из-за перепада напряжения, отключение из сети на 15-20 минут сбросит энергозависимую память контроллера. При физической поломке (засор, ТЭН, помпа) код появится снова.</p>
     </div>
     
     <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Опасно ли продолжать эксплуатацию при коде E29?</h4>
-      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Эксплуатация не рекомендуется. При заблокированной помпе или пробитом ТЭНе повышается риск перегрева платы управления и короткого замыкания в силовых цепях.</p>
-    </div>
-    
-    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Сколько времени занимает устранение ошибки E29?</h4>
-      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Самостоятельная чистка фильтра или проверка заливного шланга занимает 15-25 минут. Замена помпы, клапана или нагревательного элемента мастером занимает от 40 до 60 минут на дому.</p>
+      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">Опасно ли продолжать стирку при ошибке E29?</h4>
+      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Продолжать цикл не рекомендуется. При заблокированном насосе или пробитом ТЭНе повышается риск перегрева проводки и повреждения симисторов на плате управления.</p>
     </div>
     
         </div>
       </section>
 
-      <!-- Карточка автора E-E-A-T -->
       <div class="mt-10 p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-4">
         <div class="w-16 h-16 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
           АВ
@@ -222,18 +197,17 @@
         </div>
       </div>
 
-      <!-- Перелинковка -->
       <section class="border-t border-slate-100 pt-6 mt-8">
         <h3 class="font-bold text-slate-900 text-sm mb-3">Другие коды неисправностей Bosch:</h3>
         <div class="flex flex-wrap gap-2">
-        <a href="/washing/bosch/e17.html" class="px-3 py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
-          Код E17 Bosch
-        </a>
-        
-        <a href="/washing/bosch/e18.html" class="px-3 py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
-          Код E18 Bosch
-        </a>
-        </div>
+            <a href="/washing/bosch/e17.html" class="px-3 py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
+              Код E17 Bosch
+            </a>
+            
+            <a href="/washing/bosch/e18.html" class="px-3 py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
+              Код E18 Bosch
+            </a>
+            </div>
       </section>
     </article>
   </main>
