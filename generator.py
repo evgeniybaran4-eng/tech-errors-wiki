@@ -31,10 +31,12 @@ def generate_favicons():
 
 def get_favicon_meta():
     return """
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <meta name="theme-color" content="#4f46e5">
+  <meta name="google-site-verification" content="x5SHfixVyOYneQ4KVOWD90_KgMuHGE3DhTlqIfJcLT0" />
+  <meta name="yandex-verification" content="1d02cb961ff5b904" />
     """
 
 def generate_header():
