@@ -11,6 +11,34 @@ def create_dirs():
     os.makedirs(os.path.join(OUTPUT_DIR, "privacy"), exist_ok=True)
     os.makedirs(os.path.join(OUTPUT_DIR, "author"), exist_ok=True)
 
+def generate_favicons():
+    # 1. Современный четкий векторный SVG favicon
+    svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#4f46e5"/>
+  <path d="M35 8L16 36h14l-4 20 22-29H33l6-19z" fill="#facc15" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>"""
+    with open(os.path.join(OUTPUT_DIR, "favicon.svg"), "w", encoding="utf-8") as f:
+        f.write(svg_content)
+
+    # 2. Стандартный 16x16 ICO файл для робота Яндекса
+    ico_bytes = bytes([
+        0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x10, 0x10, 0x00, 0x00, 0x01, 0x00, 0x20, 0x00, 0x68, 0x04,
+        0x00, 0x00, 0x16, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00,
+        0x00, 0x00, 0x01, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x13, 0x0b,
+        0x00, 0x00, 0x13, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    ]) + (b"\x15\xcc\xfa\xff\x4f\x46\xe5\xff" * 128) + (b"\x00" * 64)
+
+    with open(os.path.join(OUTPUT_DIR, "favicon.ico"), "wb") as f:
+        f.write(ico_bytes)
+
+def get_favicon_meta():
+    return """
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <meta name="theme-color" content="#4f46e5">
+    """
+
 def generate_header():
     return """
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
@@ -335,6 +363,7 @@ def generate_article(item, existing_codes_set):
   <meta property="og:description" content="{short_desc}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{page_url}">
+  {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; }}</style>
@@ -474,6 +503,7 @@ def generate_404_page():
   <title>Страница не найдена — Ошибка 404 | TechErrors Wiki</title>
   <meta name="description" content="Запрошенная страница не существует или была перемещена в другой раздел справочника.">
   <meta name="robots" content="noindex, follow">
+  {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; }}</style>
@@ -516,6 +546,7 @@ def generate_author_page():
   <title>Алексей Васильев — Главный технический эксперт TechErrors Wiki</title>
   <meta name="description" content="Биография, опыт работы и специализация эксперта проекта Алексея Васильева. 12 лет практики ремонта бытовой техники.">
   <link rel="canonical" href="{SITE_URL}/author/">
+  {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; }}</style>
@@ -583,6 +614,7 @@ def generate_privacy_page():
   <title>Политика конфиденциальности и использование файлов cookie — TechErrors Wiki</title>
   <meta name="description" content="Политика обработки персональных данных и правила использования файлов cookie справочника TechErrors Wiki.">
   <link rel="canonical" href="{SITE_URL}/privacy/">
+  {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; }}</style>
@@ -660,6 +692,7 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
   <title>{title}</title>
   <meta name="description" content="{meta_desc}">
   <link rel="canonical" href="{SITE_URL}{canonical_path}">
+  {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; }}</style>
@@ -686,7 +719,10 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
 def main():
     create_dirs()
     
-    # Автоматический сбор всех database*.json
+    # 1. Генерируем фавиконки (SVG + ICO)
+    generate_favicons()
+
+    # 2. Собираем все database*.json
     database = []
     db_files = sorted(glob.glob("database*.json"))
     
@@ -833,7 +869,7 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
 
-    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL-адресов. Данные в папке '{OUTPUT_DIR}'.")
+    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL. Фавиконки созданы.")
 
 if __name__ == "__main__":
     main()
