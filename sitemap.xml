@@ -6,6 +6,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tech-errors-wiki.vercel.app/author/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tech-errors-wiki.vercel.app/dishwasher/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -97,6 +102,11 @@
   </url>
   <url>
     <loc>https://tech-errors-wiki.vercel.app/dishwasher/midea/e4.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/privacy/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
