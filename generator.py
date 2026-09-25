@@ -1,6 +1,7 @@
 import json
 import os
 import glob
+import hashlib
 
 SITE_URL = "https://tech-errors-wiki.vercel.app"
 OUTPUT_DIR = "public"
@@ -121,7 +122,15 @@ def get_repair_prices(code):
             ("Профилактическое обслуживание узла", "Не требуется", "Комплексная диагностика механических компонентов", "1 200 - 1 700 ₽")
         ]
 
+def get_natural_vote_counts(item_key):
+    h = int(hashlib.md5(item_key.encode('utf-8')).hexdigest()[:8], 16)
+    base_likes = 28 + (h % 67)
+    base_dislikes = 1 + ((h // 100) % 5)
+    return base_likes, base_dislikes
+
 def generate_voting_widget(item_key):
+    default_likes, default_dislikes = get_natural_vote_counts(item_key)
+
     return f"""
     <section class="my-10 p-6 rounded-2xl bg-gradient-to-r from-slate-50 to-indigo-50/30 border border-slate-200" id="vote-section-{item_key}">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -132,16 +141,16 @@ def generate_voting_widget(item_key):
         <div class="flex items-center gap-3">
           <button id="btn-like-{item_key}" onclick="handleVote('{item_key}', 'like')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 text-slate-700 font-semibold text-sm transition-all shadow-sm active:scale-95">
             <span>👍 Да</span>
-            <span id="count-like-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">42</span>
+            <span id="count-like-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">{default_likes}</span>
           </button>
           <button id="btn-dislike-{item_key}" onclick="handleVote('{item_key}', 'dislike')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:border-rose-300 hover:text-rose-700 text-slate-700 font-semibold text-sm transition-all shadow-sm active:scale-95">
             <span>👎 Нет</span>
-            <span id="count-dislike-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">3</span>
+            <span id="count-dislike-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">{default_dislikes}</span>
           </button>
         </div>
       </div>
       <div id="vote-msg-{item_key}" class="hidden mt-3 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg text-center">
-        Спасибо! Ваш голос учтен.
+        Спасибо! Ваш отзыв учтен.
       </div>
     </section>
 
@@ -149,13 +158,16 @@ def generate_voting_widget(item_key):
       (function() {{
         var key = '{item_key}';
         var stored = localStorage.getItem('vote_status_' + key);
-        var likeCount = parseInt(localStorage.getItem('vote_count_like_' + key) || '42', 10);
-        var dislikeCount = parseInt(localStorage.getItem('vote_count_dislike_' + key) || '3', 10);
+        var baseLikes = {default_likes};
+        var baseDislikes = {default_dislikes};
+
+        var curLikes = parseInt(localStorage.getItem('vote_count_like_' + key) || baseLikes, 10);
+        var curDislikes = parseInt(localStorage.getItem('vote_count_dislike_' + key) || baseDislikes, 10);
 
         var likeEl = document.getElementById('count-like-' + key);
         var dislikeEl = document.getElementById('count-dislike-' + key);
-        if (likeEl) likeEl.innerText = likeCount;
-        if (dislikeEl) dislikeEl.innerText = dislikeCount;
+        if (likeEl) likeEl.innerText = curLikes;
+        if (dislikeEl) dislikeEl.innerText = curDislikes;
 
         if (stored) {{
           disableVoting(key, stored);
@@ -674,12 +686,12 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
 def main():
     create_dirs()
     
-    # Автопоиск всех файлов database*.json в папке
+    # Автоматический сбор всех database*.json
     database = []
     db_files = sorted(glob.glob("database*.json"))
     
     if not db_files:
-        print("Ошибка: не найдено ни одного файла вида database*.json в папке со скриптом!")
+        print("Ошибка: не найдено ни одного файла вида database*.json!")
         return
 
     print(f"Обнаружено файлов базы данных: {len(db_files)} -> {db_files}")
@@ -690,7 +702,7 @@ def main():
                 if isinstance(data, list):
                     database.extend(data)
                 else:
-                    print(f"Предупреждение: файл {db_file} содержит не список, пропущен.")
+                    print(f"Предупреждение: файл {db_file} не содержит список, пропущен.")
         except Exception as e:
             print(f"Ошибка при чтении {db_file}: {e}")
 
@@ -821,7 +833,7 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
 
-    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL-адресов.")
+    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL-адресов. Данные в папке '{OUTPUT_DIR}'.")
 
 if __name__ == "__main__":
     main()
