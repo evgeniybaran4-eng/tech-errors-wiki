@@ -89,21 +89,19 @@
           <span>•</span>
           <a href="/sitemap.xml" class="hover:text-indigo-600 underline">Карта сайта</a>
         </div>
-        <p>TechErrors Wiki — экспертный технический справочник по кодам ошибок и диагностике бытовой техники.</p>
-        <p>Информация носит ознакомительный характер. При выполнении электромонтажных работ соблюдайте правила ПУЭ и ТБ.</p>
-        <p class="text-slate-400">© 2026 TechErrors Wiki. Все права защищены.</p>
+        <p>TechErrors Wiki — экспертная база знаний по ремонту и диагностике домашней бытовой техники.</p>
+        <p class="text-slate-400">© 2026 TechErrors Wiki. Данные актуализированы сервисными инженерами.</p>
       </div>
     </footer>
 
-    <!-- Баннер согласия с Cookie -->
     <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-slate-900 text-white p-4 rounded-2xl shadow-xl z-50 flex flex-col gap-3 border border-slate-800 hidden">
       <div class="text-xs text-slate-300 leading-relaxed">
-        Мы используем файлы cookie и аналитику для улучшения работы справочника. Продолжая использовать сайт, вы соглашаетесь с 
-        <a href="/privacy/" class="text-indigo-400 underline hover:text-indigo-300">политикой конфиденциальности</a>.
+        Мы используем куки для корректной работы каталога и сбора веб-аналитики. Подробнее в нашей
+        <a href="/privacy/" class="text-indigo-400 underline hover:text-indigo-300">политике конфиденциальности</a>.
       </div>
       <div class="flex justify-end gap-2">
         <button id="accept-cookies" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition-colors">
-          Принять и продолжить
+          Согласен
         </button>
       </div>
     </div>
@@ -111,15 +109,15 @@
     <script>
       (function() {
         if (!localStorage.getItem('cookie_consent_accepted')) {
-          var banner = document.getElementById('cookie-banner');
-          if (banner) banner.classList.remove('hidden');
+          var b = document.getElementById('cookie-banner');
+          if (b) b.classList.remove('hidden');
         }
         var btn = document.getElementById('accept-cookies');
         if (btn) {
           btn.addEventListener('click', function() {
             localStorage.setItem('cookie_consent_accepted', 'true');
-            var banner = document.getElementById('cookie-banner');
-            if (banner) banner.classList.add('hidden');
+            var b = document.getElementById('cookie-banner');
+            if (b) b.classList.add('hidden');
           });
         }
       })();

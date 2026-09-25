@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Алексей Васильев — Главный технический эксперт TechErrors Wiki</title>
-  <meta name="description" content="Биография, опыт работы и специализация технического эксперта проекта Алексея Васильева. 12 лет практики ремонта крупной бытовой техники.">
+  <meta name="description" content="Биография, опыт работы и специализация эксперта проекта Алексея Васильева. 12 лет практики ремонта бытовой техники.">
   <link rel="canonical" href="https://tech-errors-wiki.vercel.app/author/">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,8 +14,8 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Алексей Васильев",
-    "jobTitle": "Инженер по ремонту бытовой техники, ведущий эксперт",
-    "description": "Специалист по сервисному обслуживанию и диагностике стиральных и посудомоечных машин с 12-летним стажем.",
+    "jobTitle": "Инженер по ремонту бытовой техники",
+    "description": "Специалист по сервисному обслуживанию крупной бытовой техники с 12-летним стажем.",
     "url": "https://tech-errors-wiki.vercel.app/author/"
   }
   </script>
@@ -53,8 +53,8 @@
           <p class="text-indigo-600 font-medium text-sm text-center sm:text-left mb-3">Главный технический консультант и автор справочника</p>
           <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
             <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Стаж: 12 лет</span>
-            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Сертификат Bosch / Siemens</span>
-            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Профиль: Электроника и гидравлика</span>
+            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Сертификат Bosch / LG</span>
+            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Специализация: Электроника и гидравлика</span>
           </div>
         </div>
       </div>
@@ -88,21 +88,19 @@
           <span>•</span>
           <a href="/sitemap.xml" class="hover:text-indigo-600 underline">Карта сайта</a>
         </div>
-        <p>TechErrors Wiki — экспертный технический справочник по кодам ошибок и диагностике бытовой техники.</p>
-        <p>Информация носит ознакомительный характер. При выполнении электромонтажных работ соблюдайте правила ПУЭ и ТБ.</p>
-        <p class="text-slate-400">© 2026 TechErrors Wiki. Все права защищены.</p>
+        <p>TechErrors Wiki — экспертная база знаний по ремонту и диагностике домашней бытовой техники.</p>
+        <p class="text-slate-400">© 2026 TechErrors Wiki. Данные актуализированы сервисными инженерами.</p>
       </div>
     </footer>
 
-    <!-- Баннер согласия с Cookie -->
     <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-slate-900 text-white p-4 rounded-2xl shadow-xl z-50 flex flex-col gap-3 border border-slate-800 hidden">
       <div class="text-xs text-slate-300 leading-relaxed">
-        Мы используем файлы cookie и аналитику для улучшения работы справочника. Продолжая использовать сайт, вы соглашаетесь с 
-        <a href="/privacy/" class="text-indigo-400 underline hover:text-indigo-300">политикой конфиденциальности</a>.
+        Мы используем куки для корректной работы каталога и сбора веб-аналитики. Подробнее в нашей
+        <a href="/privacy/" class="text-indigo-400 underline hover:text-indigo-300">политике конфиденциальности</a>.
       </div>
       <div class="flex justify-end gap-2">
         <button id="accept-cookies" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition-colors">
-          Принять и продолжить
+          Согласен
         </button>
       </div>
     </div>
@@ -110,15 +108,15 @@
     <script>
       (function() {
         if (!localStorage.getItem('cookie_consent_accepted')) {
-          var banner = document.getElementById('cookie-banner');
-          if (banner) banner.classList.remove('hidden');
+          var b = document.getElementById('cookie-banner');
+          if (b) b.classList.remove('hidden');
         }
         var btn = document.getElementById('accept-cookies');
         if (btn) {
           btn.addEventListener('click', function() {
             localStorage.setItem('cookie_consent_accepted', 'true');
-            var banner = document.getElementById('cookie-banner');
-            if (banner) banner.classList.add('hidden');
+            var b = document.getElementById('cookie-banner');
+            if (b) b.classList.add('hidden');
           });
         }
       })();
