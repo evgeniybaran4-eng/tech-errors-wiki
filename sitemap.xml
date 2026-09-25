@@ -6,7 +6,27 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tech-errors-wiki.vercel.app/washing/bosch/e18.html</loc>
+    <loc>https://tech-errors-wiki.vercel.app/dishwasher/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/dishwasher/bosch/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/dishwasher/bosch/e15.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/washing/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/washing/bosch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -16,7 +36,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tech-errors-wiki.vercel.app/washing/lg/ue.html</loc>
+    <loc>https://tech-errors-wiki.vercel.app/washing/bosch/e18.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/washing/lg/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -26,12 +51,17 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tech-errors-wiki.vercel.app/washing/samsung/5e.html</loc>
+    <loc>https://tech-errors-wiki.vercel.app/washing/lg/ue.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tech-errors-wiki.vercel.app/dishwasher/bosch/e15.html</loc>
+    <loc>https://tech-errors-wiki.vercel.app/washing/samsung/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech-errors-wiki.vercel.app/washing/samsung/5e.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
