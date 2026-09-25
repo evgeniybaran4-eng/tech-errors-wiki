@@ -12,7 +12,6 @@ def create_dirs():
     os.makedirs(os.path.join(OUTPUT_DIR, "author"), exist_ok=True)
 
 def generate_favicons():
-    # 1. Современный четкий векторный SVG favicon
     svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#4f46e5"/>
   <path d="M35 8L16 36h14l-4 20 22-29H33l6-19z" fill="#facc15" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"/>
@@ -20,7 +19,6 @@ def generate_favicons():
     with open(os.path.join(OUTPUT_DIR, "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(svg_content)
 
-    # 2. Стандартный 16x16 ICO файл для робота Яндекса
     ico_bytes = bytes([
         0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x10, 0x10, 0x00, 0x00, 0x01, 0x00, 0x20, 0x00, 0x68, 0x04,
         0x00, 0x00, 0x16, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00,
@@ -42,7 +40,7 @@ def get_favicon_meta():
 def generate_header():
     return """
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2">
           <span class="text-2xl">⚡</span>
           <span class="font-bold text-lg text-slate-900 tracking-tight">TechErrors Wiki</span>
@@ -59,7 +57,7 @@ def generate_header():
 def generate_footer():
     return """
     <footer class="bg-white border-t border-slate-200 mt-16 py-8">
-      <div class="max-w-5xl mx-auto px-4 text-center text-xs text-slate-500 space-y-3">
+      <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-3">
         <div class="flex justify-center gap-4 text-slate-600 font-medium">
           <a href="/privacy/" class="hover:text-indigo-600 underline">Политика конфиденциальности</a>
           <span>•</span>
@@ -111,9 +109,85 @@ def generate_breadcrumbs(crumbs):
             items_html.append(f'<a href="{c["url"]}" class="hover:text-indigo-600">{c["name"]}</a>')
             items_html.append('<span>/</span>')
     return f"""
-    <nav class="max-w-5xl mx-auto px-4 py-4 w-full text-xs sm:text-sm text-slate-500 flex flex-wrap items-center gap-2">
+    <nav class="max-w-7xl mx-auto px-4 py-4 w-full text-xs sm:text-sm text-slate-500 flex flex-wrap items-center gap-2">
       {' '.join(items_html)}
     </nav>
+    """
+
+def generate_sidebar(categories, active_type="", active_brand=""):
+    """Генерация боковой панели с брендами, категориями и топ-ошибками"""
+    
+    # 1. Список стиральных машин
+    washing_brands_html = ""
+    if "washing" in categories:
+        for b_slug, b_data in sorted(categories["washing"]["brands"].items()):
+            count = len(b_data["items"])
+            is_active = (active_type == "washing" and active_brand == b_slug)
+            active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
+            washing_brands_html += f"""
+            <a href="/washing/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
+              <span>{b_data['name']}</span>
+              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{count}</span>
+            </a>
+            """
+
+    # 2. Список посудомоечных машин
+    dishwasher_brands_html = ""
+    if "dishwasher" in categories:
+        for b_slug, b_data in sorted(categories["dishwasher"]["brands"].items()):
+            count = len(b_data["items"])
+            is_active = (active_type == "dishwasher" and active_brand == b_slug)
+            active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
+            dishwasher_brands_html += f"""
+            <a href="/dishwasher/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
+              <span>{b_data['name']}</span>
+              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{count}</span>
+            </a>
+            """
+
+    return f"""
+    <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
+      <!-- Блок брендов стиральных машин -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm sticky top-24">
+        <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <span>🧺</span> Стиральные машины
+          </h3>
+          <a href="/washing/" class="text-[11px] text-indigo-600 hover:underline">Все</a>
+        </div>
+        <div class="space-y-0.5 max-h-60 overflow-y-auto pr-1">
+          {washing_brands_html}
+        </div>
+
+        <!-- Блок брендов посудомоек -->
+        <div class="flex items-center justify-between mt-6 mb-3 border-b border-slate-100 pb-2">
+          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <span>🍽️</span> Посудомойки
+          </h3>
+          <a href="/dishwasher/" class="text-[11px] text-indigo-600 hover:underline">Все</a>
+        </div>
+        <div class="space-y-0.5 max-h-48 overflow-y-auto pr-1">
+          {dishwasher_brands_html}
+        </div>
+
+        <!-- Быстрые частые ошибки -->
+        <div class="mt-6 pt-4 border-t border-slate-100">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Частые неисправности</span>
+          <div class="flex flex-wrap gap-1.5">
+            <a href="/washing/bosch/e18.html" class="text-xs bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded transition-colors">Bosch E18</a>
+            <a href="/washing/lg/ue.html" class="text-xs bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded transition-colors">LG UE</a>
+            <a href="/washing/samsung/5e.html" class="text-xs bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded transition-colors">Samsung 5E</a>
+            <a href="/dishwasher/bosch/e15.html" class="text-xs bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded transition-colors">Bosch E15</a>
+            <a href="/washing/indesit/f05.html" class="text-xs bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 px-2 py-1 rounded transition-colors">Indesit F05</a>
+          </div>
+        </div>
+
+        <!-- Памятка безопасности -->
+        <div class="mt-6 p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed">
+          <strong>⚡ Важно:</strong> Перед чисткой фильтра или диагностикой узлов всегда отключайте вилку из розетки 220V и перекрывайте воду.
+        </div>
+      </div>
+    </aside>
     """
 
 def get_repair_prices(code):
@@ -246,7 +320,7 @@ def generate_voting_widget(item_key):
     </script>
     """
 
-def generate_article(item, existing_codes_set):
+def generate_article(item, existing_codes_set, sidebar_html):
     brand_name = item.get("brand_name") or item.get("brand_slug", "").capitalize()
     type_slug = item.get("type_slug", "washing")
     brand_slug = item.get("brand_slug", "generic")
@@ -373,121 +447,127 @@ def generate_article(item, existing_codes_set):
   {generate_header()}
   {generate_breadcrumbs(crumbs)}
 
-  <main class="max-w-4xl mx-auto px-4 flex-1 w-full pb-12">
-    <article class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm">
-      <div class="flex items-center gap-3 mb-4">
-        <a href="/{type_slug}/{brand_slug}/" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100 hover:bg-indigo-100">
-          {brand_name}
-        </a>
-        <span class="text-xs text-slate-500 font-mono">Код: {code} {alias_badge}</span>
-      </div>
-
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">{title}</h1>
-      
-      <div class="text-sm sm:text-base text-slate-700 leading-relaxed mb-8 bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
-        <strong class="text-slate-900 font-semibold block mb-1">Коротко о проблеме:</strong>
-        {short_desc} При фиксации этой неполадки плата блокирует выполнение программы в целях защиты узлов прибора.
-      </div>
-
-      <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-900 mb-2">Как сбросить ошибку {code} без разборки</h2>
-        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
-          Исключите программный сбой контроллера из-за перепада напряжения:
-        </p>
-        <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
-          <li>Установите ручку выбора режимов в положение «Выкл».</li>
-          <li>Извлеките вилку кабеля питания из розетки на <strong>15–20 минут</strong>.</li>
-          <li>Включите питание снова и запустите короткий тестовый режим полоскания без белья.</li>
-          <li>Если ошибка {code} появляется повторно — неисправность вызвана физическим дефектом или засором.</li>
-        </ol>
-      </section>
-
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <div class="border border-slate-200 rounded-xl p-5 bg-white">
-          <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">⚠️ Характерные симптомы</h3>
-          <ul class="space-y-2">{symptoms_html}</ul>
-        </div>
-        <div class="border border-slate-200 rounded-xl p-5 bg-white">
-          <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">🔍 Основные причины сбоя</h3>
-          <ul class="space-y-2">{causes_html}</ul>
-        </div>
-      </section>
-
-      <section class="mb-10">
-        <h2 class="text-xl font-bold text-slate-900 mb-6">Пошаговая инструкция устранения своими руками</h2>
-        <ul class="space-y-6">{steps_html}</ul>
-      </section>
-
-      {voting_widget_html}
-
-      <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-900 mb-2">Проверка электрических компонентов мультиметром</h2>
-        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
-          Для локализации поломки проверьте сопротивление цепей при отключенном шнуре питания:
-        </p>
-        <ul class="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-700">
-          <li><strong>Замер обмотки катушки:</strong> переведите мультиметр в режим 200 Ом. Нулевое сопротивление указывает на КЗ, значение OL (бесконечность) — на обрыв проводника.</li>
-          <li><strong>Проверка пробоя на корпус:</strong> установите диапазон 20 МОм. Щупы приложите к корпусу детали и рабочему контакту. Значение должно стремиться к бесконечности.</li>
-        </ul>
-      </section>
-
-      <section class="mb-10">
-        <div class="mb-4">
-          <h3 class="text-xl font-bold text-slate-900">Ориентировочная стоимость ремонта</h3>
-          <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Средние расценки сервисных центров (стоимость запасных частей оплачивается отдельно)</p>
-        </div>
-        <div class="overflow-x-auto rounded-xl border border-slate-200">
-          <table class="w-full text-left border-collapse bg-white">
-            <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider">
-                <th class="py-3.5 px-4 font-semibold">Причина неисправности</th>
-                <th class="py-3.5 px-4 font-semibold">Запчасть под замену</th>
-                <th class="py-3.5 px-4 font-semibold hidden md:table-cell">Характер работ</th>
-                <th class="py-3.5 px-4 font-semibold">Стоимость работ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {price_table_rows}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="p-5 rounded-xl bg-amber-50 border border-amber-200 mb-8">
-        <h3 class="font-bold text-amber-900 text-base mb-2">🛠 Когда требуется вызов специалиста</h3>
-        <p class="text-slate-700 text-sm leading-relaxed">{item.get('master_fix', '')}</p>
-      </section>
-
-      <section class="mb-10">
-        <h3 class="text-xl font-bold text-slate-900 mb-4">Часто задаваемые вопросы по коду {code}</h3>
-        <div class="space-y-3">
-          {faq_html}
-        </div>
-      </section>
-
-      <div class="mt-10 p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-4">
-        <div class="w-16 h-16 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
-          АВ
-        </div>
-        <div class="text-center sm:text-left flex-1">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-            <span class="font-bold text-slate-900 text-base">Алексей Васильев</span>
-            <span class="text-xs font-semibold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded-full inline-block">Мастер высшей категории • Опыт 12 лет</span>
-          </div>
-          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-2">
-            Сертифицированный специалист по диагностике и ремонту бытовой техники ({brand_name}, Bosch, LG, Samsung). Автор регламентов технического обслуживания.
-          </p>
-          <a href="/author/" class="text-indigo-600 hover:text-indigo-800 text-xs font-semibold inline-flex items-center gap-1">
-            Подробнее об эксперте и методике проверки →
+  <main class="max-w-7xl mx-auto px-4 flex-1 w-full pb-12">
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <!-- Основная статья -->
+      <article class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm flex-1 min-w-0">
+        <div class="flex items-center gap-3 mb-4">
+          <a href="/{type_slug}/{brand_slug}/" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100 hover:bg-indigo-100">
+            {brand_name}
           </a>
+          <span class="text-xs text-slate-500 font-mono">Код: {code} {alias_badge}</span>
         </div>
-      </div>
 
-      {f'''<section class="border-t border-slate-100 pt-6 mt-8">
-        <h3 class="font-bold text-slate-900 text-sm mb-3">Другие коды неисправностей {brand_name}:</h3>
-        <div class="flex flex-wrap gap-2">{related_html}</div>
-      </section>''' if related_html else ''}
-    </article>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">{title}</h1>
+        
+        <div class="text-sm sm:text-base text-slate-700 leading-relaxed mb-8 bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+          <strong class="text-slate-900 font-semibold block mb-1">Коротко о проблеме:</strong>
+          {short_desc} При фиксации этой неполадки плата блокирует выполнение программы в целях защиты узлов прибора.
+        </div>
+
+        <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Как сбросить ошибку {code} без разборки</h2>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
+            Исключите программный сбой контроллера из-за перепада напряжения:
+          </p>
+          <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
+            <li>Установите ручку выбора режимов в положение «Выкл».</li>
+            <li>Извлеките вилку кабеля питания из розетки на <strong>15–20 минут</strong>.</li>
+            <li>Включите питание снова и запустите короткий тестовый режим полоскания без белья.</li>
+            <li>Если ошибка {code} появляется повторно — неисправность вызвана физическим дефектом или засором.</li>
+          </ol>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div class="border border-slate-200 rounded-xl p-5 bg-white">
+            <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">⚠️ Характерные симптомы</h3>
+            <ul class="space-y-2">{symptoms_html}</ul>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-5 bg-white">
+            <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">🔍 Основные причины сбоя</h3>
+            <ul class="space-y-2">{causes_html}</ul>
+          </div>
+        </section>
+
+        <section class="mb-10">
+          <h2 class="text-xl font-bold text-slate-900 mb-6">Пошаговая инструкция устранения своими руками</h2>
+          <ul class="space-y-6">{steps_html}</ul>
+        </section>
+
+        {voting_widget_html}
+
+        <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Проверка электрических компонентов мультиметром</h2>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
+            Для локализации поломки проверьте сопротивление цепей при отключенном шнуре питания:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-700">
+            <li><strong>Замер обмотки катушки:</strong> переведите мультиметр в режим 200 Ом. Нулевое сопротивление указывает на КЗ, значение OL (бесконечность) — на обрыв проводника.</li>
+            <li><strong>Проверка пробоя на корпус:</strong> установите диапазон 20 МОм. Щупы приложите к корпусу детали и рабочему контакту. Значение должно стремиться к бесконечности.</li>
+          </ul>
+        </section>
+
+        <section class="mb-10">
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-slate-900">Ориентировочная стоимость ремонта</h3>
+            <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Средние расценки сервисных центров (стоимость запасных частей оплачивается отдельно)</p>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse bg-white">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider">
+                  <th class="py-3.5 px-4 font-semibold">Причина неисправности</th>
+                  <th class="py-3.5 px-4 font-semibold">Запчасть под замену</th>
+                  <th class="py-3.5 px-4 font-semibold hidden md:table-cell">Характер работ</th>
+                  <th class="py-3.5 px-4 font-semibold">Стоимость работ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {price_table_rows}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="p-5 rounded-xl bg-amber-50 border border-amber-200 mb-8">
+          <h3 class="font-bold text-amber-900 text-base mb-2">🛠 Когда требуется вызов специалиста</h3>
+          <p class="text-slate-700 text-sm leading-relaxed">{item.get('master_fix', '')}</p>
+        </section>
+
+        <section class="mb-10">
+          <h3 class="text-xl font-bold text-slate-900 mb-4">Часто задаваемые вопросы по коду {code}</h3>
+          <div class="space-y-3">
+            {faq_html}
+          </div>
+        </section>
+
+        <div class="mt-10 p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div class="w-16 h-16 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+            АВ
+          </div>
+          <div class="text-center sm:text-left flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+              <span class="font-bold text-slate-900 text-base">Алексей Васильев</span>
+              <span class="text-xs font-semibold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded-full inline-block">Мастер высшей категории • Опыт 12 лет</span>
+            </div>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-2">
+              Сертифицированный специалист по диагностике и ремонту бытовой техники ({brand_name}, Bosch, LG, Samsung). Автор регламентов технического обслуживания.
+            </p>
+            <a href="/author/" class="text-indigo-600 hover:text-indigo-800 text-xs font-semibold inline-flex items-center gap-1">
+              Подробнее об эксперте и методике проверки →
+            </a>
+          </div>
+        </div>
+
+        {f'''<section class="border-t border-slate-100 pt-6 mt-8">
+          <h3 class="font-bold text-slate-900 text-sm mb-3">Другие коды неисправностей {brand_name}:</h3>
+          <div class="flex flex-wrap gap-2">{related_html}</div>
+        </section>''' if related_html else ''}
+      </article>
+
+      <!-- Боковая колонка (Sidebar) -->
+      {sidebar_html}
+    </div>
   </main>
 
   {generate_footer()}
@@ -665,7 +745,7 @@ def generate_privacy_page():
 </body>
 </html>"""
 
-def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canonical_path):
+def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canonical_path, sidebar_html):
     cards_html = ""
     for item in items:
         brand_name = item.get("brand_name") or item.get("brand_slug", "").capitalize()
@@ -701,14 +781,21 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
   {generate_header()}
   {generate_breadcrumbs(crumbs)}
 
-  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="mb-8">
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{heading}</h1>
-      <p class="text-slate-600 text-sm sm:text-base">{desc}</p>
-    </div>
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <div class="flex-1 min-w-0">
+        <div class="mb-8">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{heading}</h1>
+          <p class="text-slate-600 text-sm sm:text-base">{desc}</p>
+        </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {cards_html}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {cards_html}
+        </div>
+      </div>
+
+      <!-- Боковая колонка (Sidebar) -->
+      {sidebar_html}
     </div>
   </main>
 
@@ -718,11 +805,8 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
 
 def main():
     create_dirs()
-    
-    # 1. Генерируем фавиконки (SVG + ICO)
     generate_favicons()
 
-    # 2. Собираем все database*.json
     database = []
     db_files = sorted(glob.glob("database*.json"))
     
@@ -766,6 +850,7 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "404.html"), "w", encoding="utf-8") as f:
         f.write(generate_404_page())
 
+    # Формируем структуру категорий и брендов
     categories = {}
     for item in database:
         t_slug = item.get("type_slug", "washing")
@@ -780,18 +865,21 @@ def main():
         
         categories[t_slug]["brands"][b_slug]["items"].append(item)
 
+    # 1. Генерация страниц статей со встроенным сайдбаром
     for item in database:
         t_slug = item.get("type_slug", "washing")
         b_slug = item.get("brand_slug", "generic")
         brand_dir = os.path.join(OUTPUT_DIR, t_slug, b_slug)
         os.makedirs(brand_dir, exist_ok=True)
         
+        sidebar_html = generate_sidebar(categories, active_type=t_slug, active_brand=b_slug)
         file_path = os.path.join(brand_dir, f"{item['code'].lower()}.html")
         with open(file_path, "w", encoding="utf-8") as f:
-            f.write(generate_article(item, existing_codes_set))
+            f.write(generate_article(item, existing_codes_set, sidebar_html))
 
         urls.append(f"{SITE_URL}/{t_slug}/{b_slug}/{item['code'].lower()}.html")
 
+    # 2. Хабы брендов и категорий со встроенным сайдбаром
     for t_slug, t_data in categories.items():
         type_dir = os.path.join(OUTPUT_DIR, t_slug)
         os.makedirs(type_dir, exist_ok=True)
@@ -806,6 +894,7 @@ def main():
                 {"name": t_data["name"], "url": f"/{t_slug}/"},
                 {"name": b_data["name"], "url": f"/{t_slug}/{b_slug}/"}
             ]
+            sidebar_html = generate_sidebar(categories, active_type=t_slug, active_brand=b_slug)
             brand_page = generate_catalog_page(
                 title=f"Коды ошибок {t_data['name'].lower()} {b_data['name']} — База поломок",
                 meta_desc=f"Все коды ошибок {t_data['name'].lower()} марки {b_data['name']}. Пошаговый ремонт и цены на работы.",
@@ -813,7 +902,8 @@ def main():
                 desc=f"Справочник кодов ошибок {b_data['name']}. Диагностика, симптомы и способы решения.",
                 crumbs=brand_crumbs,
                 items=b_data["items"],
-                canonical_path=f"/{t_slug}/{b_slug}/"
+                canonical_path=f"/{t_slug}/{b_slug}/",
+                sidebar_html=sidebar_html
             )
             with open(os.path.join(brand_dir, "index.html"), "w", encoding="utf-8") as f:
                 f.write(brand_page)
@@ -823,6 +913,7 @@ def main():
             {"name": "Главная", "url": "/"},
             {"name": t_data["name"], "url": f"/{t_slug}/"}
         ]
+        sidebar_html = generate_sidebar(categories, active_type=t_slug)
         type_page = generate_catalog_page(
             title=f"Коды ошибок: {t_data['name']} — Справочник",
             meta_desc=f"Каталог неисправностей и кодов ошибок для {t_data['name'].lower()}.",
@@ -830,13 +921,16 @@ def main():
             desc="Выберите бренд техники для просмотра кодов ошибок и алгоритмов ремонта.",
             crumbs=type_crumbs,
             items=all_type_items,
-            canonical_path=f"/{t_slug}/"
+            canonical_path=f"/{t_slug}/",
+            sidebar_html=sidebar_html
         )
         with open(os.path.join(type_dir, "index.html"), "w", encoding="utf-8") as f:
             f.write(type_page)
         urls.append(f"{SITE_URL}/{t_slug}/")
 
+    # 3. Главная страница
     home_crumbs = [{"name": "Главная", "url": "/"}]
+    sidebar_html = generate_sidebar(categories)
     home_page = generate_catalog_page(
         title="Коды ошибок стиральных и посудомоечных машин — TechErrors Wiki",
         meta_desc="Энциклопедия неисправностей бытовой техники. Расшифровка кодов, причины и самостоятельный ремонт.",
@@ -844,7 +938,8 @@ def main():
         desc="Выберите категорию или нужный код поломки, чтобы быстро починить технику своими руками.",
         crumbs=home_crumbs,
         items=database,
-        canonical_path="/"
+        canonical_path="/",
+        sidebar_html=sidebar_html
     )
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(home_page)
@@ -869,7 +964,7 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
 
-    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL. Фавиконки созданы.")
+    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL. Сайдбар активен.")
 
 if __name__ == "__main__":
     main()
