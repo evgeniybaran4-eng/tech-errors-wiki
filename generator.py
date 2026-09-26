@@ -31,7 +31,7 @@ def generate_favicons():
 
 def get_favicon_meta():
     return """
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <meta name="theme-color" content="#4f46e5">
@@ -56,8 +56,25 @@ def generate_header():
     </header>
     """
 
-def generate_footer():
+def generate_metrika_code():
     return """
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113082958', 'ym');
+
+        ym(113082958, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/113082958" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    """
+
+def generate_footer():
+    return f"""
     <footer class="bg-white border-t border-slate-200 mt-16 py-8">
       <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-3">
         <div class="flex justify-center gap-4 text-slate-600 font-medium">
@@ -72,6 +89,7 @@ def generate_footer():
       </div>
     </footer>
 
+    <!-- Баннер согласия с Cookie -->
     <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-slate-900 text-white p-4 rounded-2xl shadow-xl z-50 flex flex-col gap-3 border border-slate-800 hidden">
       <div class="text-xs text-slate-300 leading-relaxed">
         Мы используем куки для корректной работы каталога и сбора веб-аналитики. Подробнее в нашей
@@ -85,21 +103,23 @@ def generate_footer():
     </div>
 
     <script>
-      (function() {
-        if (!localStorage.getItem('cookie_consent_accepted')) {
+      (function() {{
+        if (!localStorage.getItem('cookie_consent_accepted')) {{
           var b = document.getElementById('cookie-banner');
           if (b) b.classList.remove('hidden');
-        }
+        }}
         var btn = document.getElementById('accept-cookies');
-        if (btn) {
-          btn.addEventListener('click', function() {
+        if (btn) {{
+          btn.addEventListener('click', function() {{
             localStorage.setItem('cookie_consent_accepted', 'true');
             var b = document.getElementById('cookie-banner');
             if (b) b.classList.add('hidden');
-          });
-        }
-      })();
+          }});
+        }}
+      }})();
     </script>
+
+    {generate_metrika_code()}
     """
 
 def generate_breadcrumbs(crumbs):
@@ -117,9 +137,6 @@ def generate_breadcrumbs(crumbs):
     """
 
 def generate_sidebar(categories, active_type="", active_brand=""):
-    """Генерация боковой панели с брендами, категориями и топ-ошибками"""
-    
-    # 1. Список стиральных машин
     washing_brands_html = ""
     if "washing" in categories:
         for b_slug, b_data in sorted(categories["washing"]["brands"].items()):
@@ -133,7 +150,6 @@ def generate_sidebar(categories, active_type="", active_brand=""):
             </a>
             """
 
-    # 2. Список посудомоечных машин
     dishwasher_brands_html = ""
     if "dishwasher" in categories:
         for b_slug, b_data in sorted(categories["dishwasher"]["brands"].items()):
@@ -149,7 +165,6 @@ def generate_sidebar(categories, active_type="", active_brand=""):
 
     return f"""
     <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
-      <!-- Блок брендов стиральных машин -->
       <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm sticky top-24">
         <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
           <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
@@ -161,7 +176,6 @@ def generate_sidebar(categories, active_type="", active_brand=""):
           {washing_brands_html}
         </div>
 
-        <!-- Блок брендов посудомоек -->
         <div class="flex items-center justify-between mt-6 mb-3 border-b border-slate-100 pb-2">
           <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
             <span>🍽️</span> Посудомойки
@@ -172,7 +186,6 @@ def generate_sidebar(categories, active_type="", active_brand=""):
           {dishwasher_brands_html}
         </div>
 
-        <!-- Быстрые частые ошибки -->
         <div class="mt-6 pt-4 border-t border-slate-100">
           <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Частые неисправности</span>
           <div class="flex flex-wrap gap-1.5">
@@ -184,7 +197,6 @@ def generate_sidebar(categories, active_type="", active_brand=""):
           </div>
         </div>
 
-        <!-- Памятка безопасности -->
         <div class="mt-6 p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed">
           <strong>⚡ Важно:</strong> Перед чисткой фильтра или диагностикой узлов всегда отключайте вилку из розетки 220V и перекрывайте воду.
         </div>
@@ -451,7 +463,6 @@ def generate_article(item, existing_codes_set, sidebar_html):
 
   <main class="max-w-7xl mx-auto px-4 flex-1 w-full pb-12">
     <div class="flex flex-col lg:flex-row gap-8 items-start">
-      <!-- Основная статья -->
       <article class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm flex-1 min-w-0">
         <div class="flex items-center gap-3 mb-4">
           <a href="/{type_slug}/{brand_slug}/" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100 hover:bg-indigo-100">
@@ -567,7 +578,6 @@ def generate_article(item, existing_codes_set, sidebar_html):
         </section>''' if related_html else ''}
       </article>
 
-      <!-- Боковая колонка (Sidebar) -->
       {sidebar_html}
     </div>
   </main>
@@ -796,7 +806,6 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
         </div>
       </div>
 
-      <!-- Боковая колонка (Sidebar) -->
       {sidebar_html}
     </div>
   </main>
@@ -852,7 +861,6 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "404.html"), "w", encoding="utf-8") as f:
         f.write(generate_404_page())
 
-    # Формируем структуру категорий и брендов
     categories = {}
     for item in database:
         t_slug = item.get("type_slug", "washing")
@@ -867,7 +875,6 @@ def main():
         
         categories[t_slug]["brands"][b_slug]["items"].append(item)
 
-    # 1. Генерация страниц статей со встроенным сайдбаром
     for item in database:
         t_slug = item.get("type_slug", "washing")
         b_slug = item.get("brand_slug", "generic")
@@ -881,7 +888,6 @@ def main():
 
         urls.append(f"{SITE_URL}/{t_slug}/{b_slug}/{item['code'].lower()}.html")
 
-    # 2. Хабы брендов и категорий со встроенным сайдбаром
     for t_slug, t_data in categories.items():
         type_dir = os.path.join(OUTPUT_DIR, t_slug)
         os.makedirs(type_dir, exist_ok=True)
@@ -930,7 +936,6 @@ def main():
             f.write(type_page)
         urls.append(f"{SITE_URL}/{t_slug}/")
 
-    # 3. Главная страница
     home_crumbs = [{"name": "Главная", "url": "/"}]
     sidebar_html = generate_sidebar(categories)
     home_page = generate_catalog_page(
@@ -966,7 +971,7 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
 
-    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL. Сайдбар активен.")
+    print(f"Готово! Обработано {len(database)} статей. Сгенерировано {len(unique_urls)} URL. Метрика и верификация внедрены.")
 
 if __name__ == "__main__":
     main()
