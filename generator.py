@@ -41,13 +41,13 @@ def get_favicon_meta():
 
 def generate_header():
     return """
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2">
-          <span class="text-2xl">⚡</span>
-          <span class="font-bold text-lg text-slate-900 tracking-tight">TechErrors Wiki</span>
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm w-full">
+      <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 min-w-0">
+          <span class="text-2xl flex-shrink-0">⚡</span>
+          <span class="font-bold text-base sm:text-lg text-slate-900 tracking-tight truncate">TechErrors Wiki</span>
         </a>
-        <nav class="flex gap-4 text-sm font-medium items-center">
+        <nav class="flex gap-3 sm:gap-4 text-xs sm:text-sm font-medium items-center flex-shrink-0">
           <a href="/washing/" class="text-slate-600 hover:text-indigo-600 transition-colors">Стиральные</a>
           <a href="/dishwasher/" class="text-slate-600 hover:text-indigo-600 transition-colors">Посудомойки</a>
           <a href="/author/" class="text-slate-600 hover:text-indigo-600 transition-colors hidden sm:inline">Об авторе</a>
@@ -75,9 +75,9 @@ def generate_metrika_code():
 
 def generate_footer():
     return f"""
-    <footer class="bg-white border-t border-slate-200 mt-16 py-8">
+    <footer class="bg-white border-t border-slate-200 mt-16 py-8 w-full overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-3">
-        <div class="flex justify-center gap-4 text-slate-600 font-medium">
+        <div class="flex flex-wrap justify-center gap-3 sm:gap-4 text-slate-600 font-medium">
           <a href="/privacy/" class="hover:text-indigo-600 underline">Политика конфиденциальности</a>
           <span>•</span>
           <a href="/author/" class="hover:text-indigo-600 underline">Эксперт проекта</a>
@@ -126,12 +126,12 @@ def generate_breadcrumbs(crumbs):
     items_html = []
     for idx, c in enumerate(crumbs):
         if idx == len(crumbs) - 1:
-            items_html.append(f'<span class="text-slate-800 font-medium">{c["name"]}</span>')
+            items_html.append(f'<span class="text-slate-800 font-medium truncate max-w-[200px] sm:max-w-none">{c["name"]}</span>')
         else:
-            items_html.append(f'<a href="{c["url"]}" class="hover:text-indigo-600">{c["name"]}</a>')
-            items_html.append('<span>/</span>')
+            items_html.append(f'<a href="{c["url"]}" class="hover:text-indigo-600 flex-shrink-0">{c["name"]}</a>')
+            items_html.append('<span class="flex-shrink-0">/</span>')
     return f"""
-    <nav class="max-w-7xl mx-auto px-4 py-4 w-full text-xs sm:text-sm text-slate-500 flex flex-wrap items-center gap-2">
+    <nav class="max-w-7xl mx-auto px-4 py-3 sm:py-4 w-full text-xs sm:text-sm text-slate-500 flex flex-wrap items-center gap-1.5 sm:gap-2 overflow-hidden">
       {' '.join(items_html)}
     </nav>
     """
@@ -145,8 +145,8 @@ def generate_sidebar(categories, active_type="", active_brand=""):
             active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
             washing_brands_html += f"""
             <a href="/washing/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
-              <span>{b_data['name']}</span>
-              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{count}</span>
+              <span class="truncate pr-2">{b_data['name']}</span>
+              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded flex-shrink-0">{count}</span>
             </a>
             """
 
@@ -158,19 +158,19 @@ def generate_sidebar(categories, active_type="", active_brand=""):
             active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
             dishwasher_brands_html += f"""
             <a href="/dishwasher/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
-              <span>{b_data['name']}</span>
-              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{count}</span>
+              <span class="truncate pr-2">{b_data['name']}</span>
+              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded flex-shrink-0">{count}</span>
             </a>
             """
 
     return f"""
     <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm sticky top-24">
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm sticky top-24">
         <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
           <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
             <span>🧺</span> Стиральные машины
           </h3>
-          <a href="/washing/" class="text-[11px] text-indigo-600 hover:underline">Все</a>
+          <a href="/washing/" class="text-[11px] text-indigo-600 hover:underline font-semibold">Все</a>
         </div>
         <div class="space-y-0.5 max-h-60 overflow-y-auto pr-1">
           {washing_brands_html}
@@ -180,7 +180,7 @@ def generate_sidebar(categories, active_type="", active_brand=""):
           <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
             <span>🍽️</span> Посудомойки
           </h3>
-          <a href="/dishwasher/" class="text-[11px] text-indigo-600 hover:underline">Все</a>
+          <a href="/dishwasher/" class="text-[11px] text-indigo-600 hover:underline font-semibold">Все</a>
         </div>
         <div class="space-y-0.5 max-h-48 overflow-y-auto pr-1">
           {dishwasher_brands_html}
@@ -248,20 +248,20 @@ def generate_voting_widget(item_key):
     default_likes, default_dislikes = get_natural_vote_counts(item_key)
 
     return f"""
-    <section class="my-10 p-6 rounded-2xl bg-gradient-to-r from-slate-50 to-indigo-50/30 border border-slate-200" id="vote-section-{item_key}">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <section class="my-8 sm:my-10 p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-50 to-indigo-50/30 border border-slate-200 w-full" id="vote-section-{item_key}">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h3 class="font-bold text-slate-900 text-base sm:text-lg">Помогла ли вам эта инструкция?</h3>
+          <h3 class="font-bold text-slate-900 text-sm sm:text-base">Помогла ли вам эта инструкция?</h3>
           <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Оцените полезность статьи, чтобы помочь другим пользователям</p>
         </div>
-        <div class="flex items-center gap-3">
-          <button id="btn-like-{item_key}" onclick="handleVote('{item_key}', 'like')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 text-slate-700 font-semibold text-sm transition-all shadow-sm active:scale-95">
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <button id="btn-like-{item_key}" onclick="handleVote('{item_key}', 'like')" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700 text-slate-700 font-semibold text-xs sm:text-sm transition-all shadow-sm active:scale-95">
             <span>👍 Да</span>
-            <span id="count-like-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">{default_likes}</span>
+            <span id="count-like-{item_key}" class="bg-slate-100 text-slate-600 px-1.5 sm:px-2 py-0.5 rounded-md text-xs font-mono">{default_likes}</span>
           </button>
-          <button id="btn-dislike-{item_key}" onclick="handleVote('{item_key}', 'dislike')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:border-rose-300 hover:text-rose-700 text-slate-700 font-semibold text-sm transition-all shadow-sm active:scale-95">
+          <button id="btn-dislike-{item_key}" onclick="handleVote('{item_key}', 'dislike')" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:border-rose-300 hover:text-rose-700 text-slate-700 font-semibold text-xs sm:text-sm transition-all shadow-sm active:scale-95">
             <span>👎 Нет</span>
-            <span id="count-dislike-{item_key}" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-xs font-mono">{default_dislikes}</span>
+            <span id="count-dislike-{item_key}" class="bg-slate-100 text-slate-600 px-1.5 sm:px-2 py-0.5 rounded-md text-xs font-mono">{default_dislikes}</span>
           </button>
         </div>
       </div>
@@ -357,25 +357,25 @@ def generate_article(item, existing_codes_set, sidebar_html):
     steps_html = ""
     for idx, step in enumerate(item.get("steps", []), 1):
         steps_html += f"""
-        <li class="flex gap-4 items-start">
-          <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm flex-shrink-0 mt-0.5">{idx}</span>
-          <div>
-            <h4 class="font-bold text-slate-900 text-base">{step.get('title', '')}</h4>
-            <p class="text-slate-600 text-sm mt-1 leading-relaxed">{step.get('desc', '')}</p>
+        <li class="flex gap-3 sm:gap-4 items-start">
+          <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-xs sm:text-sm flex-shrink-0 mt-0.5">{idx}</span>
+          <div class="min-w-0 flex-1">
+            <h4 class="font-bold text-slate-900 text-sm sm:text-base break-words">{step.get('title', '')}</h4>
+            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed break-words">{step.get('desc', '')}</p>
           </div>
         </li>
         """
 
-    symptoms_html = "".join([f"<li class='text-slate-700 text-sm flex items-start gap-2.5'><span class='text-amber-500 font-bold mt-0.5'>•</span><span>{s}</span></li>" for s in item.get("symptoms", [])])
-    causes_html = "".join([f"<li class='text-slate-700 text-sm flex items-start gap-2.5'><span class='text-rose-500 font-bold mt-0.5'>•</span><span>{c}</span></li>" for c in item.get("causes", [])])
+    symptoms_html = "".join([f"<li class='text-slate-700 text-xs sm:text-sm flex items-start gap-2 break-words'><span class='text-amber-500 font-bold mt-0.5 flex-shrink-0'>•</span><span class='min-w-0'>{s}</span></li>" for s in item.get("symptoms", [])])
+    causes_html = "".join([f"<li class='text-slate-700 text-xs sm:text-sm flex items-start gap-2 break-words'><span class='text-rose-500 font-bold mt-0.5 flex-shrink-0'>•</span><span class='min-w-0'>{c}</span></li>" for c in item.get("causes", [])])
 
     price_rows = get_repair_prices(code)
     price_table_rows = "".join([f"""
     <tr class="border-b border-slate-100 hover:bg-slate-50/60 transition-colors">
-      <td class="py-3.5 px-4 text-slate-800 font-medium text-xs sm:text-sm">{cause}</td>
-      <td class="py-3.5 px-4 text-slate-600 text-xs sm:text-sm">{part}</td>
-      <td class="py-3.5 px-4 text-slate-600 text-xs sm:text-sm hidden md:table-cell">{work}</td>
-      <td class="py-3.5 px-4 text-slate-900 font-bold text-xs sm:text-sm whitespace-nowrap">{cost}</td>
+      <td class="py-3 px-3 sm:px-4 text-slate-800 font-medium text-xs sm:text-sm break-words">{cause}</td>
+      <td class="py-3 px-3 sm:px-4 text-slate-600 text-xs sm:text-sm break-words">{part}</td>
+      <td class="py-3 px-3 sm:px-4 text-slate-600 text-xs sm:text-sm hidden md:table-cell break-words">{work}</td>
+      <td class="py-3 px-3 sm:px-4 text-slate-900 font-bold text-xs sm:text-sm whitespace-nowrap">{cost}</td>
     </tr>
     """ for cause, part, work, cost in price_rows])
 
@@ -395,9 +395,9 @@ def generate_article(item, existing_codes_set, sidebar_html):
     ]
 
     faq_html = "".join([f"""
-    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-      <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-2">{item_faq['q']}</h4>
-      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">{item_faq['a']}</p>
+    <div class="border border-slate-200 rounded-xl p-3.5 sm:p-4 bg-slate-50/50">
+      <h4 class="font-bold text-slate-900 text-xs sm:text-base mb-1.5 break-words">{item_faq['q']}</h4>
+      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed break-words">{item_faq['a']}</p>
     </div>
     """ for item_faq in faq_items])
 
@@ -431,7 +431,7 @@ def generate_article(item, existing_codes_set, sidebar_html):
         if key in existing_codes_set:
             rel_target = f"/{type_slug}/{brand_slug}/{rel_code.lower()}.html"
             related_html += f"""
-            <a href="{rel_target}" class="px-3 py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
+            <a href="{rel_target}" class="px-2.5 sm:px-3 py-1.5 sm:py-2 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg text-xs sm:text-sm transition-colors border border-slate-200">
               Код {rel_code} {brand_name}
             </a>
             """
@@ -454,32 +454,36 @@ def generate_article(item, existing_codes_set, sidebar_html):
   {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body {{ font-family: 'Inter', sans-serif; }}</style>
+  <style>
+    body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}
+    article {{ overflow-wrap: break-word; word-break: break-word; }}
+    table {{ word-break: normal; }}
+  </style>
   <script type="application/ld+json">{schema_json}</script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
   {generate_breadcrumbs(crumbs)}
 
-  <main class="max-w-7xl mx-auto px-4 flex-1 w-full pb-12">
-    <div class="flex flex-col lg:flex-row gap-8 items-start">
-      <article class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm flex-1 min-w-0">
-        <div class="flex items-center gap-3 mb-4">
-          <a href="/{type_slug}/{brand_slug}/" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100 hover:bg-indigo-100">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 flex-1 w-full pb-12 overflow-x-hidden">
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start w-full">
+      <article class="bg-white rounded-2xl p-4 sm:p-8 md:p-10 border border-slate-200 shadow-sm flex-1 w-full min-w-0 overflow-hidden">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <a href="/{type_slug}/{brand_slug}/" class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100 hover:bg-indigo-100">
             {brand_name}
           </a>
           <span class="text-xs text-slate-500 font-mono">Код: {code} {alias_badge}</span>
         </div>
 
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">{title}</h1>
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight break-words">{title}</h1>
         
-        <div class="text-sm sm:text-base text-slate-700 leading-relaxed mb-8 bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+        <div class="text-xs sm:text-base text-slate-700 leading-relaxed mb-8 bg-indigo-50/50 p-3.5 sm:p-5 rounded-xl border border-indigo-100 break-words">
           <strong class="text-slate-900 font-semibold block mb-1">Коротко о проблеме:</strong>
           {short_desc} При фиксации этой неполадки плата блокирует выполнение программы в целях защиты узлов прибора.
         </div>
 
-        <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-          <h2 class="text-lg font-bold text-slate-900 mb-2">Как сбросить ошибку {code} без разборки</h2>
+        <section class="mb-8 sm:mb-10 p-3.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Как сбросить ошибку {code} без разборки</h2>
           <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
             Исключите программный сбой контроллера из-за перепада напряжения:
           </p>
@@ -491,26 +495,26 @@ def generate_article(item, existing_codes_set, sidebar_html):
           </ol>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div class="border border-slate-200 rounded-xl p-5 bg-white">
-            <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">⚠️ Характерные симптомы</h3>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          <div class="border border-slate-200 rounded-xl p-3.5 sm:p-5 bg-white">
+            <h3 class="font-bold text-slate-900 mb-3 text-sm sm:text-base flex items-center gap-2">⚠️ Характерные симптомы</h3>
             <ul class="space-y-2">{symptoms_html}</ul>
           </div>
-          <div class="border border-slate-200 rounded-xl p-5 bg-white">
-            <h3 class="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">🔍 Основные причины сбоя</h3>
+          <div class="border border-slate-200 rounded-xl p-3.5 sm:p-5 bg-white">
+            <h3 class="font-bold text-slate-900 mb-3 text-sm sm:text-base flex items-center gap-2">🔍 Основные причины сбоя</h3>
             <ul class="space-y-2">{causes_html}</ul>
           </div>
         </section>
 
-        <section class="mb-10">
-          <h2 class="text-xl font-bold text-slate-900 mb-6">Пошаговая инструкция устранения своими руками</h2>
-          <ul class="space-y-6">{steps_html}</ul>
+        <section class="mb-8 sm:mb-10">
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Пошаговая инструкция устранения своими руками</h2>
+          <ul class="space-y-4 sm:space-y-6">{steps_html}</ul>
         </section>
 
         {voting_widget_html}
 
-        <section class="mb-10 p-5 rounded-xl bg-slate-50 border border-slate-200">
-          <h2 class="text-lg font-bold text-slate-900 mb-2">Проверка электрических компонентов мультиметром</h2>
+        <section class="mb-8 sm:mb-10 p-3.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Проверка электрических компонентов мультиметром</h2>
           <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3">
             Для локализации поломки проверьте сопротивление цепей при отключенном шнуре питания:
           </p>
@@ -520,19 +524,19 @@ def generate_article(item, existing_codes_set, sidebar_html):
           </ul>
         </section>
 
-        <section class="mb-10">
+        <section class="mb-8 sm:mb-10 w-full max-w-full">
           <div class="mb-4">
-            <h3 class="text-xl font-bold text-slate-900">Ориентировочная стоимость ремонта</h3>
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Ориентировочная стоимость ремонта</h3>
             <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Средние расценки сервисных центров (стоимость запасных частей оплачивается отдельно)</p>
           </div>
-          <div class="overflow-x-auto rounded-xl border border-slate-200">
-            <table class="w-full text-left border-collapse bg-white">
+          <div class="overflow-x-auto w-full max-w-full rounded-xl border border-slate-200">
+            <table class="min-w-full text-left border-collapse bg-white">
               <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider">
-                  <th class="py-3.5 px-4 font-semibold">Причина неисправности</th>
-                  <th class="py-3.5 px-4 font-semibold">Запчасть под замену</th>
-                  <th class="py-3.5 px-4 font-semibold hidden md:table-cell">Характер работ</th>
-                  <th class="py-3.5 px-4 font-semibold">Стоимость работ</th>
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-[11px] sm:text-xs uppercase tracking-wider">
+                  <th class="py-2.5 sm:py-3.5 px-3 sm:px-4 font-semibold">Причина неисправности</th>
+                  <th class="py-2.5 sm:py-3.5 px-3 sm:px-4 font-semibold">Запчасть под замену</th>
+                  <th class="py-2.5 sm:py-3.5 px-3 sm:px-4 font-semibold hidden md:table-cell">Характер работ</th>
+                  <th class="py-2.5 sm:py-3.5 px-3 sm:px-4 font-semibold">Стоимость работ</th>
                 </tr>
               </thead>
               <tbody>
@@ -542,28 +546,28 @@ def generate_article(item, existing_codes_set, sidebar_html):
           </div>
         </section>
 
-        <section class="p-5 rounded-xl bg-amber-50 border border-amber-200 mb-8">
-          <h3 class="font-bold text-amber-900 text-base mb-2">🛠 Когда требуется вызов специалиста</h3>
-          <p class="text-slate-700 text-sm leading-relaxed">{item.get('master_fix', '')}</p>
+        <section class="p-3.5 sm:p-5 rounded-xl bg-amber-50 border border-amber-200 mb-8">
+          <h3 class="font-bold text-amber-900 text-sm sm:text-base mb-2">🛠 Когда требуется вызов специалиста</h3>
+          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed break-words">{item.get('master_fix', '')}</p>
         </section>
 
-        <section class="mb-10">
-          <h3 class="text-xl font-bold text-slate-900 mb-4">Часто задаваемые вопросы по коду {code}</h3>
+        <section class="mb-8 sm:mb-10">
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-4">Часто задаваемые вопросы по коду {code}</h3>
           <div class="space-y-3">
             {faq_html}
           </div>
         </section>
 
-        <div class="mt-10 p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-4">
-          <div class="w-16 h-16 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+        <div class="mt-8 sm:mt-10 p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-lg sm:text-xl flex-shrink-0 shadow-sm">
             АВ
           </div>
-          <div class="text-center sm:text-left flex-1">
+          <div class="text-center sm:text-left flex-1 min-w-0">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-              <span class="font-bold text-slate-900 text-base">Алексей Васильев</span>
-              <span class="text-xs font-semibold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded-full inline-block">Мастер высшей категории • Опыт 12 лет</span>
+              <span class="font-bold text-slate-900 text-sm sm:text-base">Алексей Васильев</span>
+              <span class="text-[11px] sm:text-xs font-semibold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded-full inline-block">Мастер высшей категории • Опыт 12 лет</span>
             </div>
-            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-2">
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-2 break-words">
               Сертифицированный специалист по диагностике и ремонту бытовой техники ({brand_name}, Bosch, LG, Samsung). Автор регламентов технического обслуживания.
             </p>
             <a href="/author/" class="text-indigo-600 hover:text-indigo-800 text-xs font-semibold inline-flex items-center gap-1">
@@ -598,28 +602,28 @@ def generate_404_page():
   {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body {{ font-family: 'Inter', sans-serif; }}</style>
+  <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
 
-  <main class="max-w-3xl mx-auto px-4 py-20 flex-1 flex flex-col items-center justify-center text-center">
-    <div class="w-20 h-20 rounded-3xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-3xl font-extrabold mb-6">
+  <main class="max-w-3xl mx-auto px-4 py-16 sm:py-20 flex-1 flex flex-col items-center justify-center text-center">
+    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-2xl sm:text-3xl font-extrabold mb-6">
       404
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Страница не найдена</h1>
-    <p class="text-slate-600 text-sm sm:text-base max-w-md mb-8">
+    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Страница не найдена</h1>
+    <p class="text-slate-600 text-xs sm:text-base max-w-md mb-8">
       Возможно, код ошибки был переименован или перемещен. Воспользуйтесь разделами каталога:
     </p>
 
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="/" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm">
+      <a href="/" class="px-4 sm:px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition-colors shadow-sm">
         На главную страницу
       </a>
-      <a href="/washing/" class="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold transition-colors">
+      <a href="/washing/" class="px-4 sm:px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold transition-colors">
         Стиральные машины
       </a>
-      <a href="/dishwasher/" class="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold transition-colors">
+      <a href="/dishwasher/" class="px-4 sm:px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold transition-colors">
         Посудомоечные машины
       </a>
     </div>
@@ -641,7 +645,7 @@ def generate_author_page():
   {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body {{ font-family: 'Inter', sans-serif; }}</style>
+  <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
@@ -653,19 +657,19 @@ def generate_author_page():
   }}
   </script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
   {generate_breadcrumbs([{"name": "Главная", "url": "/"}, {"name": "Эксперт проекта", "url": "/author/"}])}
 
   <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm">
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 border-b border-slate-100 pb-8 mb-8">
-        <div class="w-24 h-24 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-3xl flex-shrink-0 shadow-md">
+    <div class="bg-white rounded-2xl p-5 sm:p-10 border border-slate-200 shadow-sm">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 border-b border-slate-100 pb-8 mb-8">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0 shadow-md">
           АВ
         </div>
         <div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-1 text-center sm:text-left">Алексей Васильев</h1>
-          <p class="text-indigo-600 font-medium text-sm text-center sm:text-left mb-3">Главный технический консультант и автор справочника</p>
+          <h1 class="text-xl sm:text-3xl font-extrabold text-slate-900 mb-1 text-center sm:text-left">Алексей Васильев</h1>
+          <p class="text-indigo-600 font-medium text-xs sm:text-sm text-center sm:text-left mb-3">Главный технический консультант и автор справочника</p>
           <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
             <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Стаж: 12 лет</span>
             <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-xs font-medium">Сертификат Bosch / LG</span>
@@ -674,8 +678,8 @@ def generate_author_page():
         </div>
       </div>
 
-      <div class="space-y-6 text-slate-700 text-sm sm:text-base leading-relaxed">
-        <h2 class="text-lg font-bold text-slate-900">Опыт и специализация</h2>
+      <div class="space-y-5 text-slate-700 text-xs sm:text-base leading-relaxed">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">Опыт и специализация</h2>
         <p>
           С 2014 года я занимаюсь практическим ремонтом и сервисной диагностикой стиральных, сушильных и посудомоечных машин. За время работы восстановил более 3 500 единиц техники марок Bosch, LG, Samsung, Electrolux, Candy, Indesit и Midea.
         </p>
@@ -683,8 +687,8 @@ def generate_author_page():
           Основная цель проекта <strong>TechErrors Wiki</strong> — предоставить владельцам техники объективную, структурированную и безопасную инструкцию: какие проблемы можно решить за 5 минут своими руками без переплат мастеру, а в каких случаях действительно требуется профессиональный инструмент и замена сгоревших компонентов.
         </p>
 
-        <h2 class="text-lg font-bold text-slate-900 pt-4">Методология подготовки инструкций</h2>
-        <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 pt-4">Методология подготовки инструкций</h2>
+        <ul class="list-disc pl-5 space-y-2 text-slate-600 text-xs sm:text-sm">
           <li>Использование оригинальных сервисных бюллетеней и мануалов производителей при составлении кодов.</li>
           <li>Указание реальных номиналов электрического сопротивления для точной диагностики мультиметром.</li>
           <li>Строгий акцент на технике безопасности при работе с электроприборами.</li>
@@ -709,43 +713,43 @@ def generate_privacy_page():
   {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body {{ font-family: 'Inter', sans-serif; }}</style>
+  <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
   {generate_breadcrumbs([{"name": "Главная", "url": "/"}, {"name": "Политика конфиденциальности", "url": "/privacy/"}])}
 
   <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm space-y-6 text-slate-700 text-sm sm:text-base leading-relaxed">
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">Политика конфиденциальности</h1>
+    <div class="bg-white rounded-2xl p-5 sm:p-10 border border-slate-200 shadow-sm space-y-6 text-slate-700 text-xs sm:text-base leading-relaxed">
+      <h1 class="text-xl sm:text-3xl font-extrabold text-slate-900 mb-2">Политика конфиденциальности</h1>
       <p class="text-xs text-slate-400">Дата последнего обновления: 2026 год</p>
 
-      <section class="space-y-3">
-        <h2 class="text-lg font-bold text-slate-900">1. Общие положения</h2>
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">1. Общие положения</h2>
         <p>
           Настоящая Политика определяет порядок обработки и защиты технической информации о пользователях сайта <strong>TechErrors Wiki</strong> ({SITE_URL}). Сервис уважает право на конфиденциальность и собирает минимально необходимый объем технических данных для обеспечения бесперебойного функционирования страниц.
         </p>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-lg font-bold text-slate-900">2. Обрабатываемые данные</h2>
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">2. Обрабатываемые данные</h2>
         <p>Сайт является информационно-справочным ресурсом и не собирает паспортные данные или платежные реквизиты. В фоновом режиме могут обрабатываться:</p>
-        <ul class="list-disc pl-5 space-y-1 text-slate-600 text-sm">
+        <ul class="list-disc pl-5 space-y-1 text-slate-600 text-xs sm:text-sm">
           <li>Технические обезличенные данные браузера и устройства.</li>
           <li>IP-адрес и файлы cookie для сбора аналитики посещаемости страниц.</li>
           <li>Поисковые запросы, вводимые пользователями на сайте.</li>
         </ul>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-lg font-bold text-slate-900">3. Использование файлов Cookie</h2>
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">3. Использование файлов Cookie</h2>
         <p>
           Файлы cookie применяются для сохранения пользовательских настроек и анализа поведенческих факторов. Вы можете ограничить или полностью отключить сохранение cookie через настройки своего браузера.
         </p>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-lg font-bold text-slate-900">4. Отказ от ответственности</h2>
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">4. Отказ от ответственности</h2>
         <p>
           Все инструкции публикуются исключительно в ознакомительных целях. Всегда соблюдайте правила электробезопасности. Администрация ресурса не несет ответственности за некорректные действия при самостоятельном разборе приборов.
         </p>
@@ -763,14 +767,14 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
         brand_name = item.get("brand_name") or item.get("brand_slug", "").capitalize()
         link = f"/{item['type_slug']}/{item['brand_slug']}/{item['code'].lower()}.html"
         cards_html += f"""
-        <a href="{link}" class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-shadow group flex flex-col justify-between">
+        <a href="{link}" class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 hover:shadow-md transition-shadow group flex flex-col justify-between min-w-0">
           <div>
             <div class="flex items-center justify-between gap-2 mb-2">
-              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">{brand_name}</span>
-              <span class="font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-sm">{item['code']}</span>
+              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider truncate">{brand_name}</span>
+              <span class="font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-xs sm:text-sm flex-shrink-0">{item['code']}</span>
             </div>
-            <h3 class="font-bold text-slate-900 text-base group-hover:text-indigo-600 transition-colors mb-2">{item['title']}</h3>
-            <p class="text-slate-600 text-xs line-clamp-2">{item['short_desc']}</p>
+            <h3 class="font-bold text-slate-900 text-sm sm:text-base group-hover:text-indigo-600 transition-colors mb-2 break-words">{item['title']}</h3>
+            <p class="text-slate-600 text-xs line-clamp-2 break-words">{item['short_desc']}</p>
           </div>
           <span class="text-indigo-600 text-xs font-semibold mt-4 block">Инструкция ремонта →</span>
         </a>
@@ -787,21 +791,21 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
   {get_favicon_meta()}
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body {{ font-family: 'Inter', sans-serif; }}</style>
+  <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
   {generate_breadcrumbs(crumbs)}
 
-  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
-    <div class="flex flex-col lg:flex-row gap-8 items-start">
-      <div class="flex-1 min-w-0">
-        <div class="mb-8">
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{heading}</h1>
-          <p class="text-slate-600 text-sm sm:text-base">{desc}</p>
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 flex-1 w-full overflow-hidden">
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start w-full">
+      <div class="flex-1 min-w-0 w-full">
+        <div class="mb-6 sm:mb-8">
+          <h1 class="text-xl sm:text-3xl font-extrabold text-slate-900 mb-2 break-words">{heading}</h1>
+          <p class="text-slate-600 text-xs sm:text-base break-words">{desc}</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 w-full">
           {cards_html}
         </div>
       </div>
