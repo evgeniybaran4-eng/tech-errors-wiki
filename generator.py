@@ -50,7 +50,8 @@ def generate_header():
         <nav class="flex gap-3 sm:gap-4 text-xs sm:text-sm font-medium items-center flex-shrink-0">
           <a href="/washing/" class="text-slate-600 hover:text-indigo-600 transition-colors">Стиральные</a>
           <a href="/dishwasher/" class="text-slate-600 hover:text-indigo-600 transition-colors">Посудомойки</a>
-          <a href="/author/" class="text-slate-600 hover:text-indigo-600 transition-colors hidden sm:inline">Об авторе</a>
+          <a href="/dryer/" class="text-slate-600 hover:text-indigo-600 transition-colors hidden sm:inline">Сушильные</a>
+          <a href="/author/" class="text-slate-600 hover:text-indigo-600 transition-colors hidden md:inline">Об авторе</a>
         </nav>
       </div>
     </header>
@@ -137,54 +138,45 @@ def generate_breadcrumbs(crumbs):
     """
 
 def generate_sidebar(categories, active_type="", active_brand=""):
-    washing_brands_html = ""
-    if "washing" in categories:
-        for b_slug, b_data in sorted(categories["washing"]["brands"].items()):
+    sections_html = ""
+    category_icons = {
+        "washing": "🧺",
+        "dishwasher": "🍽️",
+        "dryer": "💨"
+    }
+
+    for cat_slug, cat_data in sorted(categories.items()):
+        icon = category_icons.get(cat_slug, "🔧")
+        brands_html = ""
+        for b_slug, b_data in sorted(cat_data["brands"].items()):
             count = len(b_data["items"])
-            is_active = (active_type == "washing" and active_brand == b_slug)
+            is_active = (active_type == cat_slug and active_brand == b_slug)
             active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
-            washing_brands_html += f"""
-            <a href="/washing/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
+            brands_html += f"""
+            <a href="/{cat_slug}/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
               <span class="truncate pr-2">{b_data['name']}</span>
               <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded flex-shrink-0">{count}</span>
             </a>
             """
 
-    dishwasher_brands_html = ""
-    if "dishwasher" in categories:
-        for b_slug, b_data in sorted(categories["dishwasher"]["brands"].items()):
-            count = len(b_data["items"])
-            is_active = (active_type == "dishwasher" and active_brand == b_slug)
-            active_cls = "bg-indigo-50 text-indigo-700 font-semibold" if is_active else "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
-            dishwasher_brands_html += f"""
-            <a href="/dishwasher/{b_slug}/" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors {active_cls}">
-              <span class="truncate pr-2">{b_data['name']}</span>
-              <span class="text-[11px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded flex-shrink-0">{count}</span>
-            </a>
-            """
+        sections_html += f"""
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2 border-b border-slate-100 pb-1.5">
+            <h3 class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-2">
+              <span>{icon}</span> {cat_data['name']}
+            </h3>
+            <a href="/{cat_slug}/" class="text-[11px] text-indigo-600 hover:underline font-semibold">Все</a>
+          </div>
+          <div class="space-y-0.5 max-h-44 overflow-y-auto pr-1">
+            {brands_html}
+          </div>
+        </div>
+        """
 
     return f"""
     <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
       <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm sticky top-24">
-        <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <span>🧺</span> Стиральные машины
-          </h3>
-          <a href="/washing/" class="text-[11px] text-indigo-600 hover:underline font-semibold">Все</a>
-        </div>
-        <div class="space-y-0.5 max-h-60 overflow-y-auto pr-1">
-          {washing_brands_html}
-        </div>
-
-        <div class="flex items-center justify-between mt-6 mb-3 border-b border-slate-100 pb-2">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <span>🍽️</span> Посудомойки
-          </h3>
-          <a href="/dishwasher/" class="text-[11px] text-indigo-600 hover:underline font-semibold">Все</a>
-        </div>
-        <div class="space-y-0.5 max-h-48 overflow-y-auto pr-1">
-          {dishwasher_brands_html}
-        </div>
+        {sections_html}
 
         <div class="mt-6 pt-4 border-t border-slate-100">
           <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Частые неисправности</span>
@@ -225,7 +217,7 @@ def get_repair_prices(code):
             ("Разгерметизация уплотнения чаши (стакана) поддона", "Ремкомплект силиконовый Bosch/VAG", "Протяжка или установка дублирующей прокладки чаши", "2 700 - 3 800 ₽"),
             ("Залипание микропереключателя поплавкового механизма", "Микровыключатель поддона", "Замена контактной группы датчика Аквастоп", "1 600 - 2 200 ₽")
         ]
-    elif any(x in c for x in ["F08", "HE", "H1", "H2", "E09", "TE", "E05", "F04"]):
+    elif any(x in c for x in ["F08", "HE", "H1", "H2", "E09", "TE", "E05", "F04", "E63", "HC"]):
         return [
             ("Пробой изоляции или обрыв нихромовой спирали ТЭНа", "ТЭН прямой/изогнутый 1700-2000W", "Снятие стенки, замена ТЭНа с термодатчиком", "2 500 - 3 500 ₽"),
             ("Деградация термодатчика NTC (смещение сопротивления)", "Датчик температуры NTC 10-20 кОм", "Установка нового терморезистора в манжету ТЭНа", "1 500 - 2 100 ₽"),
@@ -386,7 +378,7 @@ def generate_article(item, existing_codes_set, sidebar_html):
         },
         {
             "q": f"Помогает ли сброс ошибки отключением из розетки?",
-            "a": f"Отключение из сети на 15-20 минут помогает снять программный сбой процессора при бросках напряжения. Если в узлах стиральной машины есть реальный обрыв цепи, засор или пробой, код ошибки появится снова при перезапуске."
+            "a": f"Отключение из сети на 15-20 минут помогает снять программный сбой процессора при бросках напряжения. Если в узлах техники есть реальный обрыв цепи, засор или пробой, код ошибки появится снова при перезапуске."
         },
         {
             "q": f"Опасно ли продолжать эксплуатацию при коде {code}?",
@@ -490,7 +482,7 @@ def generate_article(item, existing_codes_set, sidebar_html):
           <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
             <li>Установите ручку выбора режимов в положение «Выкл».</li>
             <li>Извлеките вилку кабеля питания из розетки на <strong>15–20 минут</strong>.</li>
-            <li>Включите питание снова и запустите короткий тестовый режим полоскания без белья.</li>
+            <li>Включите питание снова и запустите короткий тестовый режим без загрузки.</li>
             <li>Если ошибка {code} появляется повторно — неисправность вызвана физическим дефектом или засором.</li>
           </ol>
         </section>
@@ -625,6 +617,9 @@ def generate_404_page():
       </a>
       <a href="/dishwasher/" class="px-4 sm:px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold transition-colors">
         Посудомоечные машины
+      </a>
+      <a href="/dryer/" class="px-4 sm:px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold transition-colors">
+        Сушильные машины
       </a>
     </div>
   </main>
@@ -943,7 +938,7 @@ def main():
     home_crumbs = [{"name": "Главная", "url": "/"}]
     sidebar_html = generate_sidebar(categories)
     home_page = generate_catalog_page(
-        title="Коды ошибок стиральных и посудомоечных машин — TechErrors Wiki",
+        title="Коды ошибок бытовой техники — TechErrors Wiki",
         meta_desc="Энциклопедия неисправностей бытовой техники. Расшифровка кодов, причины и самостоятельный ремонт.",
         heading="Энциклопедия кодов ошибок бытовой техники",
         desc="Выберите категорию или нужный код поломки, чтобы быстро починить технику своими руками.",
@@ -968,9 +963,10 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(sitemap_content)
 
+    # Отключаем принудительные правила Vercel, вызывавшие 308 редиректы
     vercel_config = {
-        "cleanUrls": True,
-        "trailingSlash": True
+        "cleanUrls": False,
+        "trailingSlash": False
     }
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
