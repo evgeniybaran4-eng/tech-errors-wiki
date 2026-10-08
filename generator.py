@@ -963,10 +963,16 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(sitemap_content)
 
-    # Отключаем принудительные правила Vercel, вызывавшие 308 редиректы
     vercel_config = {
         "cleanUrls": False,
-        "trailingSlash": False
+        "trailingSlash": False,
+        "redirects": [
+            {
+                "source": "/:type(washing|dishwasher|dryer)/:brand/:code([a-zA-Z0-9_-]+)",
+                "destination": "/:type/:brand/:code.html",
+                "permanent": True
+            }
+        ]
     }
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
