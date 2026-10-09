@@ -59,23 +59,28 @@ def generate_header():
 
 def generate_metrika_code():
     return """
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113082958', 'ym');
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113082958', 'ym');
 
-        ym(113082958, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/113082958" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
+      ym(113082958, 'init', {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true
+      });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/113082958" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
     """
 
 def generate_footer():
-    return f"""
+    return """
     <footer class="bg-white border-t border-slate-200 mt-16 py-8 w-full overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-3">
         <div class="flex flex-wrap justify-center gap-3 sm:gap-4 text-slate-600 font-medium">
@@ -104,23 +109,21 @@ def generate_footer():
     </div>
 
     <script>
-      (function() {{
-        if (!localStorage.getItem('cookie_consent_accepted')) {{
+      (function() {
+        if (!localStorage.getItem('cookie_consent_accepted')) {
           var b = document.getElementById('cookie-banner');
           if (b) b.classList.remove('hidden');
-        }}
+        }
         var btn = document.getElementById('accept-cookies');
-        if (btn) {{
-          btn.addEventListener('click', function() {{
+        if (btn) {
+          btn.addEventListener('click', function() {
             localStorage.setItem('cookie_consent_accepted', 'true');
             var b = document.getElementById('cookie-banner');
             if (b) b.classList.add('hidden');
-          }});
-        }}
-      }})();
+          });
+        }
+      })();
     </script>
-
-    {generate_metrika_code()}
     """
 
 def generate_breadcrumbs(crumbs):
@@ -205,19 +208,19 @@ def get_repair_prices(code):
             ("Залипание контактов датчика уровня (прессостата)", "Аналоговый/электронный прессостат", "Продувка трубки давления, замена датчика уровня", "1 700 - 2 400 ₽"),
             ("Выгорание симистора управления помпой на плате", "Симистор платы / резисторы обвязки", "Демонтаж модуля управления, компонентная пайка цепи", "3 200 - 4 600 ₽")
         ]
-    elif any(x in c for x in ["E17", "F17", "IE", "4E", "4C", "E10", "E11", "E1", "E02", "F01"]):
+    elif any(x in c for x in ["E17", "F17", "IE", "4E", "4C", "E10", "E11", "E1", "E02", "F01", "F5"]):
         return [
             ("Кальцинация и механический засор сетки входного штуцера", "Уплотнительная манжета", "Извлечение фильтра, ультразвуковая чистка", "900 - 1 300 ₽"),
             ("Обрыв электромагнитной катушки заливного клапана (КЭН)", "Клапан заливной 1-2-3 секционный", "Замена блока клапанов, опрессовка соединений", "2 100 - 2 900 ₽"),
             ("Окисление контактных колодок цепи залива", "Клеммы, термоусадка", "Восстановление контактов, зачистка окислов", "1 200 - 1 800 ₽")
         ]
-    elif any(x in c for x in ["E15", "E23", "F23", "I30", "E4"]):
+    elif any(x in c for x in ["E15", "E23", "F23", "I30", "E4", "F15"]):
         return [
             ("Ложное срабатывание из-за пены или конденсата", "Не требуется", "Демонтаж боковой стенки, сушка поддона, сброс аварии", "1 300 - 1 800 ₽"),
             ("Разгерметизация уплотнения чаши (стакана) поддона", "Ремкомплект силиконовый Bosch/VAG", "Протяжка или установка дублирующей прокладки чаши", "2 700 - 3 800 ₽"),
             ("Залипание микропереключателя поплавкового механизма", "Микровыключатель поддона", "Замена контактной группы датчика Аквастоп", "1 600 - 2 200 ₽")
         ]
-    elif any(x in c for x in ["F08", "HE", "H1", "H2", "E09", "TE", "E05", "F04", "E63", "HC"]):
+    elif any(x in c for x in ["F08", "HE", "H1", "H2", "E09", "TE", "E05", "F04", "E63", "HC", "F3"]):
         return [
             ("Пробой изоляции или обрыв нихромовой спирали ТЭНа", "ТЭН прямой/изогнутый 1700-2000W", "Снятие стенки, замена ТЭНа с термодатчиком", "2 500 - 3 500 ₽"),
             ("Деградация термодатчика NTC (смещение сопротивления)", "Датчик температуры NTC 10-20 кОм", "Установка нового терморезистора в манжету ТЭНа", "1 500 - 2 100 ₽"),
@@ -452,6 +455,7 @@ def generate_article(item, existing_codes_set, sidebar_html):
     table {{ word-break: normal; }}
   </style>
   <script type="application/ld+json">{schema_json}</script>
+  {generate_metrika_code()}
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
@@ -595,6 +599,7 @@ def generate_404_page():
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
+  {generate_metrika_code()}
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
@@ -651,6 +656,7 @@ def generate_author_page():
     "url": "{SITE_URL}/author/"
   }}
   </script>
+  {generate_metrika_code()}
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
@@ -709,6 +715,7 @@ def generate_privacy_page():
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
+  {generate_metrika_code()}
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
@@ -787,6 +794,7 @@ def generate_catalog_page(title, meta_desc, heading, desc, crumbs, items, canoni
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>body {{ font-family: 'Inter', sans-serif; overflow-x: hidden; }}</style>
+  {generate_metrika_code()}
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col overflow-x-hidden">
   {generate_header()}
@@ -963,17 +971,21 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(sitemap_content)
 
+    # 301-редиректы с URL без .html на версию с .html
     vercel_config = {
         "cleanUrls": False,
         "trailingSlash": False,
         "redirects": [
             {
-                "source": "/:type(washing|dishwasher|dryer)/:brand/:code([a-zA-Z0-9_-]+)",
+                "source": "/:type/:brand/:code([^/\\.]+)/?",
                 "destination": "/:type/:brand/:code.html",
                 "permanent": True
             }
         ]
     }
+    with open("vercel.json", "w", encoding="utf-8") as f:
+        json.dump(vercel_config, f, indent=2)
+
     with open(os.path.join(OUTPUT_DIR, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump(vercel_config, f, indent=2)
 
